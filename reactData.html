@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>data_of_react</title>
+	<script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+		var odiv = document.getElementById('container');
+		var Circle = React.createClass({
+			render:function(){
+				var circleStyle = {
+					display:"inline-block",
+					width:100,
+					height:100,
+					backgroundColor:this.props.bgColor,
+					borderRadius:"50%"
+				}
+				return(
+					<div style={circleStyle}></div>
+					)
+			}
+		});
+		function showCircle(){
+			var colors = ["#393E41","#E94F37","#1CC89B","#A1D363",
+			"#85FFC7","#297373","#FF8552","#A40E4C"];
+			var renderData = [];
+			for(let i = 0; i< colors.length; i++){
+				var random = Math.floor(Math.random() * colors.length);
+				renderData.push(<Circle bgColor={colors[random]}/>)
+			}
+			
+			return renderData;
+		}
+		
+		ReactDOM.render(<div>
+			{showCircle()}
+			</div>,odiv)
+	</script>
+</body>
+</html>
