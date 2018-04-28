@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>React To Do List</title>
+	<script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <style type="text/css">
+    body{
+    	padding: 50px;
+    	background-color: #66ccff;
+    	font-family: sans-serif
+    }
+    .todoListMain .header input{
+    	padding: 10px;
+    	font-size: 16px;
+    	border: 2px solid #fff;
+    }
+    .todoListMain .header button{
+    	padding: 10px;
+    	font-size: 16px;
+    	margin: 10px;
+    	color: #fff;
+    	border:2px solid #0066FF;
+    	background-color: #0066ff;
+    }
+    .todoListMain .header button:hover{
+    	background-color: #003399;
+    	border: 2px solid #003399;
+    	cursor: pointer;
+    }
+    .todoListMain .theList{
+    	list-style: none;
+    	padding-left: 0;
+    	width: 285px;
+    }
+    .todoListMain .theList li{
+    	color: #333;
+    	background-color: rgba(255,255,255,0.5);
+    	padding: 15px;
+    	margin-bottom: 15px;
+    	border-radius: 5px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+		var destination = document.querySelector("#container");
+
+		var ToDoItem = React.createClass({
+			render:function(){
+				var entriesItem = this.props.entries;
+				var createList=function(item){
+					return(
+						<li>{item.text}</li>
+						);
+				}
+				var listItem = entriesItem.map(createList);
+				return(
+					<ul className="theList">
+						{listItem}
+					</ul>
+					)
+			}
+
+		});
+
+
+
+		var App = React.createClass({
+			getInitialState:function(){
+				return({
+					items:[]
+				});
+			},
+			addItem:function(e){
+				var itemArray = this.state.items;
+				if(""!=this._inputItem.value){
+					itemArray.push({
+					text:this._inputItem.value,
+					key:Date.now()
+				});
+				}
+				
+				this.setState({
+					items:itemArray
+				});
+				e.preventDefault();
+				this._inputItem.focus();
+				this._inputItem.value='';
+			},
+			render:function(){
+				return(
+					<div className="todoListMain">
+						<div className="header">
+							<form onSubmit={this.addItem}>
+								<input
+								ref={(a)=>{this._inputItem=a}}
+								 placeholder="请填写一个任务"/>
+								<button type="submit">添加</button>
+							</form>
+						</div>
+						<ToDoItem entries={this.state.items}/>
+					</div>
+					)
+			}
+		});
+		ReactDOM.render(<div><App/></div>,destination)
+	</script>
+</body>
+</html>
